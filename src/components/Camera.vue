@@ -39,15 +39,25 @@ function TakePicture() {
     link.href=canvas.value.toDataURL();
     link.click();
 }
-function AfterSecond() {
-    setTimeout(function () {
-        var link = document.createElement('a');
-        link.download = `vue-cam-${new Date().toISOString()}.png`;
-        link.href = canvas.value.toDataURL();
-        link.click();
-    }, 10000); // 10000 milisaniye (10 saniye)
+const countdown = ref(0);
 
+function updateCountdown() {
+  if (countdown.value > 0) {
+    countdown.value--;
+    setTimeout(updateCountdown, 1000); 
+  }
 }
+
+function AfterSecond() {
+  countdown.value = 10; 
+  updateCountdown(); 
+
+  setTimeout(function () {
+    var link = document.createElement('a');
+    link.download = `vue-cam-${new Date().toISOString()}.png`;
+    link.href = canvas.value.toDataURL();
+    link.click();
+  }, 10000); 
 
 </script>
 
